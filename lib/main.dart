@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'utils.dart' as util;
+import 'package:qrcode_asset/scanner.dart';
 
 void main() => runApp(MyApp());
 
@@ -67,171 +68,173 @@ class _DialogEditSiswaState extends State<DialogEditSiswa> {
       contentPadding: EdgeInsets.fromLTRB(2, 2, 2, 2),
       titlePadding: EdgeInsets.fromLTRB(10, 10, 5, 0),
       title: Text(widget.title),
-      content: DefaultTextStyle(
-        style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            color: Colors.black.withOpacity(0.8)),
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: Container(
-            width: 350,
-            child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(10),
-                color: Colors.grey.withOpacity(0.2),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.topRight,
-                      width: 80,
-                      child: Text("ID : "),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                            isEdit() ? widget.rowSiswa["id"].toString() : "#"),
+      content: SingleChildScrollView(
+        child: DefaultTextStyle(
+          style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: Colors.black.withOpacity(0.8)),
+          child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Container(
+              width: 350,
+              child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(10),
+                  color: Colors.grey.withOpacity(0.2),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.topRight,
+                        width: 80,
+                        child: Text("ID : "),
                       ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                color: Colors.grey.withOpacity(0.3),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.topRight,
-                      width: 80,
-                      child: Text("No. Polisi : "),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        child: TextField(
-                          decoration: InputDecoration(),
-                          controller: _txtnoPolisi,
-                          minLines: 1,
-                          maxLines: 2,
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                              isEdit() ? widget.rowSiswa["id"].toString() : "#"),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                color: Colors.grey.withOpacity(0.2),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.topRight,
-                      width: 80,
-                      child: Text("No Rangka : "),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        child: TextField(
-                          controller: _txtnoRangka,
-                          minLines: 2,
-                          maxLines: 4,
+                Container(
+                  padding: EdgeInsets.all(10),
+                  color: Colors.grey.withOpacity(0.3),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.topRight,
+                        width: 80,
+                        child: Text("No. Polisi : "),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.topLeft,
+                          child: TextField(
+                            decoration: InputDecoration(),
+                            controller: _txtnoPolisi,
+                            minLines: 1,
+                            maxLines: 2,
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                color: Colors.grey.withOpacity(0.2),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.topRight,
-                      width: 80,
-                      child: Text("No Mesin : "),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        child: TextField(
-                          controller: _txtnoMesin,
-                          minLines: 2,
-                          maxLines: 4,
+                Container(
+                  padding: EdgeInsets.all(10),
+                  color: Colors.grey.withOpacity(0.2),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.topRight,
+                        width: 80,
+                        child: Text("No Rangka : "),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.topLeft,
+                          child: TextField(
+                            controller: _txtnoRangka,
+                            minLines: 2,
+                            maxLines: 4,
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                color: Colors.grey.withOpacity(0.2),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.topRight,
-                      width: 80,
-                      child: Text("Keterangan : "),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        child: TextField(
-                          controller: _txtketerangan,
-                          minLines: 2,
-                          maxLines: 4,
+                Container(
+                  padding: EdgeInsets.all(10),
+                  color: Colors.grey.withOpacity(0.2),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.topRight,
+                        width: 80,
+                        child: Text("No Mesin : "),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.topLeft,
+                          child: TextField(
+                            controller: _txtnoMesin,
+                            minLines: 2,
+                            maxLines: 4,
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                color: Colors.grey.withOpacity(0.2),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.topRight,
-                      width: 80,
-                      child: Text("Ref. Number QR Code : "),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        child: TextField(
-                          controller: _txtrefNumberQrCode,
-                          minLines: 2,
-                          maxLines: 4,
+                Container(
+                  padding: EdgeInsets.all(10),
+                  color: Colors.grey.withOpacity(0.2),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.topRight,
+                        width: 80,
+                        child: Text("Keterangan : "),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.topLeft,
+                          child: TextField(
+                            controller: _txtketerangan,
+                            minLines: 2,
+                            maxLines: 4,
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ]),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  color: Colors.grey.withOpacity(0.2),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.topRight,
+                        width: 80,
+                        child: Text("Ref. Number QR Code : "),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.topLeft,
+                          child: TextField(
+                            controller: _txtrefNumberQrCode,
+                            minLines: 2,
+                            maxLines: 4,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ]),
+            ),
           ),
         ),
       ),
@@ -293,6 +296,10 @@ class _DialogEditSiswaState extends State<DialogEditSiswa> {
     );
   }
 }
+
+
+
+// Dashboard
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -708,6 +715,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
+
+
+          // SEARCH
+
           Container(
             height: 50,
             child: TextField(
@@ -744,15 +755,23 @@ class _MyHomePageState extends State<MyHomePage> {
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Colors.red.withOpacity(0.2), width: 32.0),
-                        borderRadius: BorderRadius.circular(0.0)))),
+                        borderRadius: BorderRadius.circular(0.0)
+                    ),
+                )
+            ),
           ),
           Expanded(child: _getTable())
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Scan()),
+          );
+        },
         tooltip: 'Tambah Siswa',
-        child: Icon(Icons.add_box),
+        child: Icon(Icons.add_box,),
         backgroundColor: Colors.blueAccent,
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
